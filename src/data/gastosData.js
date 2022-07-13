@@ -51,11 +51,13 @@ export const profitOrLoss = [
   {
     year: 2022,
     month: 'jan',
-    amount: 250
+    amount: 250,
+    status: 'red'
   },
   {
     year: 2022,
     month: 'feb',
-    amount: 550
+    amount: 550,
+    status: 'green'
   }
 ];

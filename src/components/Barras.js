@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
-const Barras = ({ amount, totalMount, month }) => {
+const Barras = ({ amount, totalMount, month, status }) => {
   return (
-    <Barra amount={amount} totalMount={totalMount}>
+    <Barra amount={amount} totalMount={totalMount} status={status}>
       <Month>{month}</Month>
     </Barra>
   );
@@ -14,7 +14,7 @@ export default Barras;
 const Barra = styled.div`
   width: 40px;
   height: ${(props) => props.totalMount || 0}%;
-  background-color: green;
+  background-color: ${(props) => props.status || 'grey'};
   display: flex;
   align-items: flex-end;
   justify-content: center;
