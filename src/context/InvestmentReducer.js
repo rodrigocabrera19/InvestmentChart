@@ -3,12 +3,14 @@ export default function InvestmentReducer(state, action) {
 
   switch (type) {
     case "ADD_AMOUNT":
-      return {
+      return [
         ...state,
-        year: payload.year,
-        month: payload.month,
-        amount: payload.amount
-      };
+        {
+          year: payload.year,
+          month: payload.month,
+          amount: payload.amount,
+        },
+      ];
     default:
       return state;
   }

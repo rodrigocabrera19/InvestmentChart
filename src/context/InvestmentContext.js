@@ -20,22 +20,23 @@ export const InvestmentProvider = (props) => {
 
   /* Tomamos la data de monto invertido ingresado por el ususario y lo enviamos al InvestmentReducer */
   const addInvestment = (investedAmountData) => {
-    /* const investmentData = e.target.value;
-    const dataType = e.target.name;
-    let data = []; */
-
     dispatch({
-      action: "ADD_AMOUNT",
+      type: "ADD_AMOUNT",
       payload: investedAmountData,
     });
   };
-  return <InvestmentContext.Provider value={{addInvestment, monthlyInvestments}} {...props} />;
+  return (
+    <InvestmentContext.Provider
+      value={{ addInvestment, state }}
+      {...props}
+    />
+  );
 };
 
 export const useInvestment = () => {
   const context = React.useContext(InvestmentContext);
   if (!context) {
-    throw new Error('Error');
+    throw new Error("Error");
   }
   return context;
 };

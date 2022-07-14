@@ -1,4 +1,5 @@
 /* Import de context */
+import AddInvestmentAmount from "./components/AddInvestmentAmount";
 import { InvestmentProvider } from "./context/InvestmentContext";
 import InvestmentChart from "./view/InvestmentChart";
 import ProfitOrlossChart from "./view/ProfitOrlossChart";
@@ -13,6 +14,7 @@ function App() {
     <>
       <InvestmentChart />
       <ProfitOrlossChart />
+      <AddInvestmentAmount/>
     </>
   );
 }
