@@ -1,10 +1,11 @@
 import styled from "styled-components";
 import React, { useState, useEffect } from "react";
-
-import { monthlyInvestments } from "../data/gastosData";
 import Barras from "../components/Barras";
+import { useInvestment } from "../context/InvestmentContext";
 
 function InvestmentChart() {
+  const { monthlyInvestments } = useInvestment();
+  
   const [totalAmountMonth, setTotalAmountMonth] = useState(0);
   const [amountPerMonth, setAmountPerMonth] = useState({
     jan: null,
