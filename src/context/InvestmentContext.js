@@ -3,20 +3,21 @@ import InvestmentReducer from "./InvestmentReducer";
 
 const InvestmentContext = createContext();
 export const InvestmentProvider = (props) => {
-  const monthlyInvestments = [
+  const investmentStatement = [
     {
-      year: 2022,
-      month: "jan",
-      amount: 300,
+      monthlyInvestments: [
+        
+      ]
     },
     {
-      year: 2022,
-      month: "feb",
-      amount: 500,
-    },
+      profitOrLossInvestment: [
+        
+      ]
+    }
   ];
+  const [profitOrLoss, setProfitOrLoss] = useState([]);
 
-  const [state, dispatch] = useReducer(InvestmentReducer, monthlyInvestments);
+  const [state, dispatch] = useReducer(InvestmentReducer, investmentStatement);
 
   /* Tomamos la data de monto invertido ingresado por el ususario y lo enviamos al InvestmentReducer */
   const addInvestment = (investedAmountData) => {
@@ -27,7 +28,11 @@ export const InvestmentProvider = (props) => {
   };
   return (
     <InvestmentContext.Provider
-      value={{ addInvestment, state }}
+      value={{
+        addInvestment,
+        state,
+        profitOrLoss,
+      }}
       {...props}
     />
   );

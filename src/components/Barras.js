@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const Barras = ({ amount, totalMount, month, status }) => {
   return (
-    <Barra amount={amount} totalMount={totalMount} status={status}>
+    <Barra amount={amount} totalMount={(totalMount)} status={status}>
       <Month>{month}</Month>
     </Barra>
   );

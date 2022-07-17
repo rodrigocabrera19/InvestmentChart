@@ -1,24 +1,26 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Barras from "../components/Barras";
+import { useInvestment } from "../context/InvestmentContext";
 
 
-import { profitOrLoss, monthlyInvestments } from "../data/gastosData";
 
 const ProfitOrlossChart = () => {
   const [totalAmountMonth, setTotalAmountMonth] = useState(0);
+
+  const { state } = useInvestment();
   useEffect(() => {
     /* Una function que itere por montos mensuales */
-    const sumaTotalMount = profitOrLoss.reduce(
+    const sumaTotalMount = state[1].profitOrLossInvestment.reduce(
       (acc, curr) => acc + (curr.amount || 0),
       0
     );
     setTotalAmountMonth(sumaTotalMount);
-
-  }, []);
+      
+  });
   return (
     <Main>
-      {profitOrLoss.map((gasto, i) => {
+      {state[1].profitOrLossInvestment.map((gasto, i) => {
         return (
           <Barras
             status={gasto.status}

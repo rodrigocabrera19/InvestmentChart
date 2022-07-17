@@ -1,23 +1,29 @@
 import styled from "styled-components";
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Barras from "../components/Barras";
 import { useInvestment } from "../context/InvestmentContext";
 
 function InvestmentChart() {
   const { state } = useInvestment();
   const [totalAmountMonth, setTotalAmountMonth] = useState(0);
-  
   useEffect(() => {
     /* Una function que itere por montos mensuales */
-    const sumaTotalMount = state.reduce(
+    const sumaTotalMount = state[0].monthlyInvestments.reduce(
       (acc, curr) => acc + (curr.amount || 0),
       0
     );
     setTotalAmountMonth(sumaTotalMount);
-  }, []);
+    /* const getCoins = async () => {
+      const res = await fetch("https://api.coingecko.com/api/v3/coins/list");
+      const coinsData = res.json();
+      console.log(coinsData);
+    };
+    getCoins(); */
+  });
+
   return (
     <Main>
-      {state.map((gasto, i) => {
+      {state[0].monthlyInvestments.map((gasto, i) => {
         return (
           <Barras
             key={i}

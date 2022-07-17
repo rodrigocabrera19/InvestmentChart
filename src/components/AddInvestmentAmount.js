@@ -7,8 +7,10 @@ const AddInvestmentAmount = () => {
   const { addInvestment } = useInvestment();
 
   const changeinvestmentData = (e) => {
-    const investmentValue = e.target.value;
-    const dataType = e.target.name;
+    const investmentValue = e.target.value; //Tomamos el valos de los input
+    const dataType = e.target.name; //Detectamos el tipo de dato: year, month, amount.
+
+    //Guardamos la data en un state
     switch (dataType) {
       case "year":
         setInvestmentData({
@@ -36,7 +38,7 @@ const AddInvestmentAmount = () => {
 
   const onSubmitData = (e) => {
     e.preventDefault();
-    addInvestment(investmentData);
+    addInvestment(investmentData);//Agregamos el nuevo monto al estado global.
   };
   return (
     <form onSubmit={onSubmitData}>
