@@ -8,26 +8,25 @@ import { useInvestment } from "../context/InvestmentContext";
 const ProfitOrlossChart = () => {
   const [totalAmountMonth, setTotalAmountMonth] = useState(0);
 
-  const { state } = useInvestment();
+  const { profitOrLossInvestment } = useInvestment();
   useEffect(() => {
     /* Una function que itere por montos mensuales */
-    const sumaTotalMount = state[1].profitOrLossInvestment.reduce(
-      (acc, curr) => acc + (curr.amount || 0),
+    const sumaTotalMount = profitOrLossInvestment.reduce(
+      (acc, curr) => acc + (curr.currentAmount || 0),
       0
     );
     setTotalAmountMonth(sumaTotalMount);
-      
   });
   return (
     <Main>
-      {state[1].profitOrLossInvestment.map((gasto, i) => {
+      {profitOrLossInvestment.map((gasto, i) => {
         return (
           <Barras
             status={gasto.status}
             key={i}
-            amount={gasto.amount}
+            amount={gasto.currentAmount}
             month={gasto.month}
-            totalMount={(gasto.amount / totalAmountMonth) * 100}
+            totalMount={(gasto.currentAmount / totalAmountMonth) * 100}
           />
         );
       })}

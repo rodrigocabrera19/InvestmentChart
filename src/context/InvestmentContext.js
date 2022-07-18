@@ -1,37 +1,68 @@
-import React, { useState, createContext, useReducer } from "react";
+import React, { useState, createContext, useReducer, useEffect } from "react";
 import InvestmentReducer from "./InvestmentReducer";
 
 const InvestmentContext = createContext();
 export const InvestmentProvider = (props) => {
   const investmentStatement = [
     {
-      monthlyInvestments: [
-        
-      ]
+      monthlyInvestments: [],
     },
     {
-      profitOrLossInvestment: [
-        
-      ]
-    }
+      profitOrLossInvestment: [],
+    },
   ];
-  const [profitOrLoss, setProfitOrLoss] = useState([]);
-
   const [state, dispatch] = useReducer(InvestmentReducer, investmentStatement);
+  useEffect(() => {
+    const getCoins = async () => {
+      try {
+        const res = await fetch(
+          "https://api.coingecko.com/api/v3/coins/bitcoin?localization=false&tickers=false&community_data=false&developer_data=false&sparkline=false"
+        );
+        const coin = await res.json();
+        setCoinPriceCurrent(coin.market_data.current_price.usd);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    getCoins();
+  }, [investmentStatement]);
 
+
+  const [coinPriceCurrent, setCoinPriceCurrent] = useState(0);
+  //Calculamos pérdidas o ganancias.
+  const calculateProfitOrLoss = (investedAmountData) => {
+    let amount = investedAmountData.amount; //Monto invertido
+    let currencyPurchasePrice = investedAmountData.currencyPurchasePrice; //Precio actual de la cripto
+    let profitOrLossInPercentage =
+      ((coinPriceCurrent - currencyPurchasePrice) / currencyPurchasePrice) *
+      amount; //Porcentaje de pérdida o ganancia.
+    const isProfit = Math.sign(profitOrLossInPercentage) === 1; //Detectamos si es ganancia o no.
+
+    //Si el porcentaje apartir del cálculo de la variación del precio de la cripto es negativo se resta al monto y viceversa.
+    let amountWithProfitOrLoss = isProfit
+      ? amount + profitOrLossInPercentage
+      : amount - Math.abs(profitOrLossInPercentage); //Monto final de la inversión con pérdida o ganancia
+
+    investedAmountData.currentAmount = amountWithProfitOrLoss; //Agregamos el monto final con pédida o ganancia.
+    investedAmountData.isProfit = isProfit; //Agregamos un boolean para determinar si hubo pérdida o ganancias.
+  };
   /* Tomamos la data de monto invertido ingresado por el ususario y lo enviamos al InvestmentReducer */
+
+
   const addInvestment = (investedAmountData) => {
+    calculateProfitOrLoss(investedAmountData);
     dispatch({
       type: "ADD_AMOUNT",
       payload: investedAmountData,
     });
   };
+
   return (
     <InvestmentContext.Provider
       value={{
         addInvestment,
-        state,
-        profitOrLoss,
+        monthlyInvestments: state[0].monthlyInvestments,
+        profitOrLossInvestment: state[1].profitOrLossInvestment,
       }}
       {...props}
     />

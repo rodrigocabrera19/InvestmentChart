@@ -30,6 +30,12 @@ const AddInvestmentAmount = () => {
           amount: Number(investmentValue),
         });
         break;
+      case "price":
+        setInvestmentData({
+          ...investmentData,
+          currencyPurchasePrice: Number(investmentValue),
+        });
+        break;
       default:
         setInvestmentData({});
         break;
@@ -53,6 +59,10 @@ const AddInvestmentAmount = () => {
       <div>
         <label htmlFor="amount">Monto</label>
         <input type="number" name="amount" onChange={changeinvestmentData} />
+      </div>
+      <div>
+        <label htmlFor="price">Precio de compra de la cripto</label>
+        <input type="number" name="price" onChange={changeinvestmentData} />
       </div>
       <div>
         <button type="submit"> Add Investment</button>
