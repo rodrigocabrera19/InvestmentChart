@@ -12,27 +12,24 @@ export const InvestmentProvider = (props) => {
     },
   ];
   const [state, dispatch] = useReducer(InvestmentReducer, investmentStatement);
-  useEffect(() => {
-    const getCoins = async () => {
-      try {
-        const res = await fetch(
-          "https://api.coingecko.com/api/v3/coins/bitcoin?localization=false&tickers=false&community_data=false&developer_data=false&sparkline=false"
-        );
-        const coin = await res.json();
-        setCoinPriceCurrent(coin.market_data.current_price.usd);
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    getCoins();
-  }, [investmentStatement]);
-
 
   const [coinPriceCurrent, setCoinPriceCurrent] = useState(0);
-  //Calculamos pérdidas o ganancias.
-  const calculateProfitOrLoss = (investedAmountData) => {
+  const getCoin = async (coinName) => {
+    console.log(coinName);
+    try {
+      const res = await fetch(
+        `https://api.coingecko.com/api/v3/coins/${coinName}?localization=false&tickers=false&community_data=false&developer_data=false&sparkline=false`
+      );
+      const coin = await res.json();
+      setCoinPriceCurrent(coin.market_data.current_price.usd);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  const addInvestment = async (investedAmountData) => {
+    //Calculamos pérdidas o ganancias.
     let amount = investedAmountData.amount; //Monto invertido
-    let currencyPurchasePrice = investedAmountData.currencyPurchasePrice; //Precio actual de la cripto
+    let currencyPurchasePrice = investedAmountData.currencyPurchasePrice; //Precio de compra de la cripto
     let profitOrLossInPercentage =
       ((coinPriceCurrent - currencyPurchasePrice) / currencyPurchasePrice) *
       amount; //Porcentaje de pérdida o ganancia.
@@ -45,12 +42,7 @@ export const InvestmentProvider = (props) => {
 
     investedAmountData.currentAmount = amountWithProfitOrLoss; //Agregamos el monto final con pédida o ganancia.
     investedAmountData.isProfit = isProfit; //Agregamos un boolean para determinar si hubo pérdida o ganancias.
-  };
-  /* Tomamos la data de monto invertido ingresado por el ususario y lo enviamos al InvestmentReducer */
 
-
-  const addInvestment = (investedAmountData) => {
-    calculateProfitOrLoss(investedAmountData);
     dispatch({
       type: "ADD_AMOUNT",
       payload: investedAmountData,
@@ -61,6 +53,7 @@ export const InvestmentProvider = (props) => {
     <InvestmentContext.Provider
       value={{
         addInvestment,
+        getCoin,
         monthlyInvestments: state[0].monthlyInvestments,
         profitOrLossInvestment: state[1].profitOrLossInvestment,
       }}

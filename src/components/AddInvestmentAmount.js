@@ -4,24 +4,18 @@ import { useInvestment } from "../context/InvestmentContext";
 const AddInvestmentAmount = () => {
   const [investmentData, setInvestmentData] = useState({});
 
-  const { addInvestment } = useInvestment();
+  const { addInvestment, getCoin } = useInvestment();
 
   const changeinvestmentData = (e) => {
     const investmentValue = e.target.value; //Tomamos el valos de los input
     const dataType = e.target.name; //Detectamos el tipo de dato: year, month, amount.
-
+    console.log(investmentValue)
     //Guardamos la data en un state
     switch (dataType) {
-      case "year":
+      case "fecha":
         setInvestmentData({
           ...investmentData,
-          year: investmentValue,
-        });
-        break;
-      case "month":
-        setInvestmentData({
-          ...investmentData,
-          month: investmentValue,
+          fecha: investmentValue,
         });
         break;
       case "amount":
@@ -49,12 +43,8 @@ const AddInvestmentAmount = () => {
   return (
     <form onSubmit={onSubmitData}>
       <div>
-        <label htmlFor="year">Año</label>
-        <input type="number" name="year" onChange={changeinvestmentData} />
-      </div>
-      <div>
-        <label htmlFor="month">Mes</label>
-        <input type="text" name="month" onChange={changeinvestmentData} />
+        <label htmlFor="fecha">Fecha de compra</label>
+        <input type="month" name="fecha" onChange={changeinvestmentData} />
       </div>
       <div>
         <label htmlFor="amount">Monto</label>
@@ -63,6 +53,15 @@ const AddInvestmentAmount = () => {
       <div>
         <label htmlFor="price">Precio de compra de la cripto</label>
         <input type="number" name="price" onChange={changeinvestmentData} />
+      </div>
+      <div>
+        <label htmlFor="coin">Elije la criptomoneda que compraste</label>
+        <select onChange={(e) => getCoin(e.target.value)} name="coin">
+          <option value=''>Seleccione</option>
+          <option value='bitcoin'>Bitcoin</option>
+          <option value='ethereum'>Ethereum</option>
+          <option value='solana'>Solana</option>
+        </select>
       </div>
       <div>
         <button type="submit"> Add Investment</button>
