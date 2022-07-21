@@ -8,10 +8,10 @@ import { useInvestment } from "../context/InvestmentContext";
 const ProfitOrlossChart = () => {
   const [totalAmountMonth, setTotalAmountMonth] = useState(0);
 
-  const { profitOrLossInvestment } = useInvestment();
+  const { state } = useInvestment();
   useEffect(() => {
     /* Una function que itere por montos mensuales */
-    const sumaTotalMount = profitOrLossInvestment.reduce(
+    const sumaTotalMount = state.reduce(
       (acc, curr) => acc + (curr.currentAmount || 0),
       0
     );
@@ -19,7 +19,7 @@ const ProfitOrlossChart = () => {
   });
   return (
     <Main>
-      {profitOrLossInvestment.map((gasto, i) => {
+      {state.map((gasto, i) => {
         return (
           <Barras
             status={gasto.status}

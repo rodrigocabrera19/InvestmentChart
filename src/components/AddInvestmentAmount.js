@@ -9,7 +9,6 @@ const AddInvestmentAmount = () => {
   const changeinvestmentData = (e) => {
     const investmentValue = e.target.value; //Tomamos el valos de los input
     const dataType = e.target.name; //Detectamos el tipo de dato: year, month, amount.
-    console.log(investmentValue)
     //Guardamos la data en un state
     switch (dataType) {
       case "fecha":

@@ -4,11 +4,11 @@ import Barras from "../components/Barras";
 import { useInvestment } from "../context/InvestmentContext";
 
 function InvestmentChart() {
-  const { monthlyInvestments } = useInvestment();
+  const { state } = useInvestment();
   const [totalAmountMonth, setTotalAmountMonth] = useState(0);
   useEffect(() => {
     /* Una function que itere por montos mensuales */
-    const sumaTotalMount = monthlyInvestments.reduce(
+    const sumaTotalMount = state.reduce(
       (acc, curr) => acc + (curr.amount || 0),
       0
     );
@@ -29,7 +29,7 @@ function InvestmentChart() {
 
   return (
     <Main>
-      {monthlyInvestments.map((gasto, i) => {
+      {state.map((gasto, i) => {
         return (
           <Barras
             key={i}

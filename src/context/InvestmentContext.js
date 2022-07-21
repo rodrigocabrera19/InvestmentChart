@@ -3,19 +3,11 @@ import InvestmentReducer from "./InvestmentReducer";
 
 const InvestmentContext = createContext();
 export const InvestmentProvider = (props) => {
-  const investmentStatement = [
-    {
-      monthlyInvestments: [],
-    },
-    {
-      profitOrLossInvestment: [],
-    },
-  ];
+  const investmentStatement = [];
   const [state, dispatch] = useReducer(InvestmentReducer, investmentStatement);
 
   const [coinPriceCurrent, setCoinPriceCurrent] = useState(0);
   const getCoin = async (coinName) => {
-    console.log(coinName);
     try {
       const res = await fetch(
         `https://api.coingecko.com/api/v3/coins/${coinName}?localization=false&tickers=false&community_data=false&developer_data=false&sparkline=false`
@@ -54,8 +46,7 @@ export const InvestmentProvider = (props) => {
       value={{
         addInvestment,
         getCoin,
-        monthlyInvestments: state[0].monthlyInvestments,
-        profitOrLossInvestment: state[1].profitOrLossInvestment,
+        state
       }}
       {...props}
     />
